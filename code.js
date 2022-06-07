@@ -97,10 +97,10 @@ window.onload = function () {
 
     function lineFinish(e) {
         for (word of words) {
-            if (((word.startX == x1 && word.endX == x2) ||
-                (word.startX == x2 && word.endX == x1)) &&
-                ((word.startY == y1 && word.endY == y2) ||
-                (word.startY == y2 && word.endY == y1))) {
+            if (((word.startX == x1 && word.startY == y1) &&
+                (word.endX == x2 && word.endY == y2)) ||
+                ((word.startX == x2 && word.startY == y2) &&
+                (word.endX == x1 && word.endY == y1))) {
                 if (!word.isFound) {
                     word.isFound = true;
                     line.dataset.state = "found";
