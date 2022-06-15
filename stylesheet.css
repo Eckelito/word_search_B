@@ -1,19 +1,33 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    display: flex;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .container {
     display: grid;
     grid-template: 1fr / 1fr;
     padding: 0;
     margin: 0;
-    height: 600px;
-    width: 600px;
-    border-width: 5px;
+    height: 90vmin;
+    width: 90vmin;
+    border-width: 0.675vmin;
     border-color: black;
     border-style: solid;
-    transform-origin:top left;
+    transform-origin: top left;
+
 }
 
 .board {
     grid-area: 1 / 1;
-    margin: 0px;
+    margin: 0;
     display: grid;
     grid-template: repeat(10, 10fr) / repeat(10, 10fr);
     align-items: center;
@@ -22,11 +36,11 @@
 .cell {
 
     font-family: sans-serif;
-    font-size: 30px;
-    margin: 0px;
-    padding: 0px;
+    font-size: 4.5vmin;
+    margin: 0vmin;
+    padding: 0vmin;
     text-align: center;
-    line-height: 60px;
+    line-height: 9vmin;
     z-index: 1;
     -webkit-user-select: none;
     /* Safari */
@@ -43,6 +57,8 @@
     z-index: -1;
 }
 
+
+
 .WSLine {
     stroke: lightgray;
     stroke-width: 6%;
@@ -57,8 +73,8 @@
 }
 
 .WSLine[data-state="found"] {
-    stroke: rgb(22,42,83);
-    stroke-opacity:50%;
+    stroke: rgb(22, 42, 83);
+    stroke-opacity: 50%;
 }
 
 #A1 {

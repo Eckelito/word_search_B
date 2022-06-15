@@ -1,5 +1,5 @@
-let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let cells = document.getElementsByClassName("cell");
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const cells = document.getElementsByClassName("cell");
 
 class wordC {
     isFound = false;
@@ -16,8 +16,10 @@ let words = [];
 words.push(new wordC("KANGAROO", [1, 1], [8, 8]));
 words.push(new wordC("ELEPHANT", [1, 2], [8, 9]));
 words.push(new wordC("MALIBU", [2, 1], [2, 6]));
+words.push(new wordC("GOKART", [4, 4], [9, 4]));
+words.push(new wordC("POTATO", [9, 2], [9, 7]));
 
-function coordinateToPos(c) {
+function coordinateToCSSPos(c) {
     return ((c - 1) * 10 + 5) + "%";
 }
 
@@ -60,16 +62,17 @@ function setWord(word) {
 
 window.onload = function () {
     let x1, x2, y1, y2;
+    let x2Valid, y2Valid;
     let state = 1;
     let wordsFound = 0;
     let lines = document.getElementsByClassName("WSLine");
     let line = lines[0];
 
     function drawLine() {
-        line.setAttribute("x1", coordinateToPos(x1));
-        line.setAttribute("y1", coordinateToPos(y1));
-        line.setAttribute("x2", coordinateToPos(x2));
-        line.setAttribute("y2", coordinateToPos(y2));
+        line.setAttribute("x1", coordinateToCSSPos(x1));
+        line.setAttribute("y1", coordinateToCSSPos(y1));
+        line.setAttribute("x2", coordinateToCSSPos(x2));
+        line.setAttribute("y2", coordinateToCSSPos(y2));
     }
 
     function lineInitiate(e) {
@@ -90,6 +93,8 @@ window.onload = function () {
             let y = Number(e.target.dataset.y);
             [x2, y2] = [x, y];
             if (isAligned([x1, y1], [x, y])) {
+                x2Valid = x2;
+                y2Valid = y2;
                 drawLine();
             }
         }
@@ -97,10 +102,10 @@ window.onload = function () {
 
     function lineFinish(e) {
         for (word of words) {
-            if (((word.startX == x1 && word.startY == y1) &&
-                (word.endX == x2 && word.endY == y2)) ||
-                ((word.startX == x2 && word.startY == y2) &&
-                (word.endX == x1 && word.endY == y1))) {
+            if (((word.startX == x1 && word.endX == x2Valid) ||
+                (word.startX == x2Valid && word.endX == x1)) &&
+                ((word.startY == y1 && word.endY == y2Valid) ||
+                (word.startY == y2Valid && word.endY == y1))) {
                 if (!word.isFound) {
                     word.isFound = true;
                     line.dataset.state = "found";
@@ -117,8 +122,9 @@ window.onload = function () {
         setRandLetter(cell);
         cell.addEventListener('mousedown', lineInitiate, false);
         cell.addEventListener('mouseover', lineUpdate, false);
-        cell.addEventListener('mouseup', lineFinish, false);
     }
+
+    document.body.addEventListener('mouseup', lineFinish, false);
 
     words.forEach(setWord);
 }
